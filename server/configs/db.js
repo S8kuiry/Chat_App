@@ -4,7 +4,7 @@ dotenv.config();
 
 export const connectDB = async () => {
   try {
-    mongoose.set('bufferCommands', false); // ✅ Optional safety
+    mongoose.set('bufferCommands', false);
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
