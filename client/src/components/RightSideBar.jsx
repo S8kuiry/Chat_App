@@ -46,7 +46,7 @@ const RightSideBar = () => {
       </div>
 
       {/* Media Section */}
-      <div className="w-full flex flex-wrap relative pt-6 overflow-y-scroll h-[17rem]">
+      <div className="w-full flex flex-wrap relative pt-6 overflow-y-scroll h-[17rem] ">
         <p className="absolute top-0 left-2 text-white">Media :</p>
         {msgImages.length === 0 ? (
           <div className="text-white font-medium text-xs w-full flex items-center justify-center mt-4">
