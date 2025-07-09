@@ -1,39 +1,38 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import cors from 'cors'
-import mongoose from 'mongoose'
-import { connectDB } from './configs/db.js'
-import userRouter from './routes/userRoutes.js'
-import messageRouter from './routes/messageRoutes.js'
-import {Server} from 'socket.io'
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import { connectDB } from './configs/db.js';
+import userRouter from './routes/userRoutes.js';
+import messageRouter from './routes/messageRoutes.js';
+import { Server } from 'socket.io';
 import http from 'http';
 
-
-// app set up
 dotenv.config();
-const app = express()
-const server = http.createServer(app)
+
+// App setup
+const app = express();
+const server = http.createServer(app);
+
+// Middlewares
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ extended: true, limit: "30mb" }));
-// middleware 
-app.use(cors())
+app.use(cors());
 
-//initialize socket io server ............
-export const io = new   Server(server,{
-    cors:{origin:"*"}
+// Socket.io setup
+export const io = new Server(server, {
+  cors: { origin: "*" },
+});
 
-})
-// store online users 
-export const userSocketmap = {}
-// socket io handler function 
+// Store online users
+export const userSocketmap = {};
+
 io.on("connection", (socket) => {
-  const userId = socket.handshake.query.userId; // ✅ CORRECT way to get userId
-
+  const userId = socket.handshake.query.userId;
   console.log("User Connected", userId);
 
   if (userId) userSocketmap[userId] = socket.id;
 
-  // Emit online users
   io.emit("getOnlineUsers", Object.keys(userSocketmap));
 
   socket.on("disconnect", () => {
@@ -43,29 +42,29 @@ io.on("connection", (socket) => {
   });
 });
 
+// Routes
+app.use('/api/auth', userRouter);
+app.use('/api/messages', messageRouter);
 
+app.get('/', (req, res) => {
+  res.send("Hello There");
+});
 
+// ✅ Start server *only after* DB is connected
+const PORT = process.env.PORT || 5000;
 
-// db connection 
-connectDB()
+const startServer = async () => {
+  try {
+    await connectDB(); // ⏳ Wait for DB connection
+    server.listen(PORT, () => {
+      console.log(`🚀 Server successfully running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("❌ Failed to connect DB or start server:", err.message);
+    process.exit(1); // 🔴 Exit if DB fails
+  }
+};
 
+startServer();
 
-
-// routes ----------
-app.use('/api/auth',userRouter)
-app.use('/api/messages',messageRouter)
-
-//listening of server 
-app.get('/',(req,res)=>{
-    res.send("Hello There")
-})
-
-if(process.env.NODE_ENV !== "production"){
-  const PORT= process.env.PORT || 5000
-  server.listen(process.env.PORT,()=>{
-    console.log("Server successfully running on port "+process.env.PORT)
-})
-
-}
-export default server
-
+export default server;

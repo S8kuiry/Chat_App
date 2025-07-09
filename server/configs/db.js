@@ -4,20 +4,16 @@ dotenv.config();
 
 export const connectDB = async () => {
   try {
-    mongoose.connection.on('connected', () => {
-      console.log("✅ Database successfully connected");
-    });
-
-    mongoose.set('bufferCommands', false); // 🧠 disable command buffering (optional but good)
-    
+    mongoose.set('bufferCommands', false); // ✅ Optional safety
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 30000, // ⏱ Increase timeout from default (10s) to 30s
-      socketTimeoutMS: 45000,          // ⏱ Socket inactivity timeout
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
     });
-
+    console.log("✅ MongoDB connected:", mongoose.connection.host);
   } catch (error) {
-    console.error("❌ Connection error:", error.message);
+    console.error("❌ MongoDB connection error:", error.message);
+    throw error;
   }
 };
