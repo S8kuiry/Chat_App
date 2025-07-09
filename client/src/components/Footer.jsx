@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 const Footer = ({position}) => {
   return (
     <div>
-      <div className={`absolute py-8 inset-x-0 bottom-${position} flex flex-wrap items-center justify-center gap-4 bg-transparent `}>
+      <div className={`absolute py-8 inset-x-0 -bottom-0 flex flex-wrap items-center justify-center gap-4 bg-transparent `}>
         
         <div className="h-full flex items-center justify-center gap-2 sm:gap-4 text-sm text-gray-300">
           <p className="hover:underline cursor-pointer">Contact</p>

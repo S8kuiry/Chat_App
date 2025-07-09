@@ -116,7 +116,7 @@ const LoginPage = () => {
        
         
       </motion.div>
-       <Footer position={"0"} />
+       <Footer position={10} />
     </div>
   )
 }
