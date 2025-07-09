@@ -49,15 +49,23 @@ io.on("connection", (socket) => {
 // db connection 
 connectDB()
 
-//listening of server 
-app.get('/',(req,res)=>{
-    res.send("Hello There")
-})
-server.listen(process.env.PORT,()=>{
-    console.log("Server successfully running on port "+process.env.PORT)
-})
 
 
 // routes ----------
 app.use('/api/auth',userRouter)
 app.use('/api/messages',messageRouter)
+
+//listening of server 
+app.get('/',(req,res)=>{
+    res.send("Hello There")
+})
+
+if(process.env.NODE_ENV !== "production"){
+  const PORT= process.env.PORT || 5000
+  server.listen(process.env.PORT,()=>{
+    console.log("Server successfully running on port "+process.env.PORT)
+})
+
+}
+export default server
+

@@ -11,7 +11,7 @@ const App = () => {
   const {authUser,loading} = useAppContext()
   if (loading) return <div className="text-white text-center p-8">Loading...</div>; // ⏳ wait until checkAuth finishes
   return (
-    <div className="bg-[url('./src/assets/bgImage.svg')] bg-contain">
+    <div className="bg-[url('/bgImage.svg')] bg-contain">
       <Toaster position='top-right'/>
       <Routes>
         <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
