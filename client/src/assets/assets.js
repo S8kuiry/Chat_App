@@ -21,10 +21,10 @@ import pic3 from './pic3.png'
 import pic4 from './pic4.png'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
-import github from  './socials/github.png'
-import whatsApp from  './socials/whatsApp.svg'
-import linkedin from './socials/linkedin.svg'
-import deleteIcon from './delete.jpg'
+import github from  '/github.png'
+import whatsApp from  '/whatsApp.svg'
+import linkedin from '/linkedin.svg'
+import deleteIcon from '/delete.jpg'
 
 
 const assets = {
